@@ -224,3 +224,6 @@ dist
 
 ### Server mvn
 Server/.mvn/*
+
+###
+app/package-lock.json
