@@ -22,6 +22,9 @@
           <router-link to="/">
             <el-dropdown-item>Dashboard</el-dropdown-item>
           </router-link>
+<!--          <el-dropdown-item divided @click.prevent.stop="guide">-->
+<!--            <span style="display:block;">Guide</span>-->
+<!--          </el-dropdown-item>-->
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">Log Out</span>
           </el-dropdown-item>
@@ -36,9 +39,10 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
-import Screenfull from '@/components/Screenfull'
-import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import Driver from 'driver.js'
+import steps from '@/views/guide/steps'
+import 'driver.js/dist/driver.min.css' // import driver.js css
 
 export default {
   components: {
@@ -47,6 +51,11 @@ export default {
     ErrorLog,
     Search
   },
+  data() {
+    return {
+      driver: null
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -54,7 +63,14 @@ export default {
       'device'
     ])
   },
+  mounted() {
+    this.driver = new Driver()
+  },
   methods: {
+    guide() {
+      this.driver.defineSteps(steps)
+      this.driver.start()
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
