@@ -1,0 +1,9 @@
+POST http://127.0.0.1:{{PORT}}/api-v2/users/signin
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin1234"
+}
+
+###

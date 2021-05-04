@@ -54,6 +54,11 @@
       "name": "UserController.me",
       "type": "java.lang.String",
       "description": "Description for UserController.me."
+    },
+    {
+      "name": "server.context-path",
+      "type": "java.lang.String",
+      "description": "Description for server.context-path."
     }
   ]
 }

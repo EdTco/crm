@@ -32,7 +32,7 @@ public class AppApplication implements CommandLineRunner {
     public void run(String... params) throws Exception {
         User admin = new User();
         admin.setUsername("admin");
-        admin.setPassword("admin");
+        admin.setPassword("admin1234");
         admin.setEmail("admin@email.com");
         admin.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_ADMIN)));
 

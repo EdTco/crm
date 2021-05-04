@@ -75,7 +75,7 @@ export default {
       logo: 'https://img.icons8.com/color/144/000000/object.png',
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: 'admin1234'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
