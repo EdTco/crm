@@ -69,25 +69,5 @@
     "svg-sprite-loader": "4.1.3",
     "svgo": "1.2.0",
     "vue-template-compiler": "2.6.10"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ],
-  "keywords": [
-    "vue",
-    "admin",
-    "dashboard",
-    "element-ui",
-    "boilerplate",
-    "admin-template",
-    "management-system"
-  ],
-  "license": "MIT",
-  "lint-staged": {
-    "src/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ]
   }
 }

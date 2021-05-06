@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'titulo owo ',
+  title: 'Admin CRM',
 
   /**
    * @type {boolean} true | false
