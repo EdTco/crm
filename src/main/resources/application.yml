@@ -1,7 +1,8 @@
 spring:
-
+#  profiles:
+#    active: @spring.profiles.active@
   datasource:
-    url: jdbc:h2:mem:crm_app_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: ${DATABASE_URL}
     username: ${USERNAME}
     password: ${PASSWORD}
   tomcat:
@@ -11,16 +12,17 @@ spring:
     min-idle: 15
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         jdbc:
           lob:
             non_contextual_creation: true
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: ${HIBERNATE_DIALECT}
         format_sql: true
         id:
           new_generator_mappings: false
+    open-in-view: false
 
 server:
   servlet:

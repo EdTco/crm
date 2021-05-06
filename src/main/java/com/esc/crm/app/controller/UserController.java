@@ -1,96 +1,139 @@
 package com.esc.crm.app.controller;
 
-import com.esc.crm.app.dto.UserDataDTO;
-import com.esc.crm.app.dto.UserResponseDTO;
-import com.esc.crm.app.model.User;
-import com.esc.crm.app.model.request.SigninRequest;
+import com.esc.crm.app.model.request.UserDetailsRequestModel;
+import com.esc.crm.app.model.response.OperationStatusModel;
+import com.esc.crm.app.model.response.RequestOperationName;
+import com.esc.crm.app.model.response.RequestOperationStatus;
+import com.esc.crm.app.model.response.UserRest;
 import com.esc.crm.app.service.UserService;
+import com.esc.crm.app.shared.dto.UserDto;
 import io.swagger.annotations.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@Api(tags = "users")
 public class UserController {
 
-    org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+	@Autowired
+	UserService userService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+	/**
+	 * Initialize Logger object
+	 */
+	org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @PostMapping("/signin")
-    @ApiOperation(value = "${UserController.signin}")
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 422, message = "Invalid username/password supplied")})
-    @CrossOrigin(origins = "http://localhost:9527")
-    public Map<String, String> login(@RequestBody SigninRequest request) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("token", userService.signin(request.getUsername(), request.getPassword()));
-        return map;
-    }
+	@CrossOrigin
+	@ApiOperation(value = "The Get User Details Web Service Endpoint", notes = "This web service endpoint returns the User detials with json format or xml format")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "authorization", value = "Bearer JWT Token", paramType = "header")})
+	@GetMapping(path = "/{id}",
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserRest getUser(@PathVariable String id) {
 
-    @PostMapping("/signup")
-    @ApiOperation(value = "${UserController.signup}")
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 422, message = "Username is already in use")})
-    public String signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
-        return userService.signup(modelMapper.map(user, User.class));
-    }
+		logger.info("UserController -> getUser(id) method has been called");
+		UserRest returnValue = new UserRest();
 
-    @DeleteMapping(value = "/{username}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ApiOperation(value = "${UserController.delete}", authorizations = {@Authorization(value = "apiKey")})
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 404, message = "The user doesn't exist"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public String delete(@ApiParam("Username") @PathVariable String username) {
-        userService.delete(username);
-        return username;
-    }
+		UserDto userDto = userService.getUserByUserId(id);
+		BeanUtils.copyProperties(userDto, returnValue);
 
-    @GetMapping(value = "/{username}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ApiOperation(value = "${UserController.search}", response = UserResponseDTO.class, authorizations = {@Authorization(value = "apiKey")})
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 404, message = "The user doesn't exist"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public UserResponseDTO search(@ApiParam("Username") @PathVariable String username) {
-        return modelMapper.map(userService.search(username), UserResponseDTO.class);
-    }
+		logger.info("Return the user to the requester");
+		return returnValue;
+	}
 
-    @GetMapping(value = "/me")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
-    @ApiOperation(value = "${UserController.me}", response = UserResponseDTO.class, authorizations = {@Authorization(value = "apiKey")})
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public UserResponseDTO whoami(HttpServletRequest req) {
-        return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
-    }
+	@CrossOrigin
+	@ApiResponses(value = {//
+			@ApiResponse(code = 400, message = "Something went wrong"), //
+			@ApiResponse(code = 403, message = "Access denied"), //
+			@ApiResponse(code = 404, message = "The user doesn't exist"), //
+			@ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+	@ApiOperation(value = "The User Registration Web Service Endpoint", notes = "This web service endpoint returns the User detials with json format or xml format when the user is created")
+	@PostMapping(
+			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
+			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) {
 
-    @GetMapping("/refresh")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
-    public String refresh(HttpServletRequest req) {
-        return userService.refresh(req.getRemoteUser());
-    }
+		logger.info("UserController -> createUser(userDetails) method has been called");
+		UserRest returnValue = new UserRest();
+
+		UserDto userDto = new UserDto();
+		BeanUtils.copyProperties(userDetails, userDto);
+
+		UserDto createUser = userService.createUser(userDto);
+		BeanUtils.copyProperties(createUser, returnValue);
+
+		logger.info("Return the user to the requester");
+		return returnValue;
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "The User Details Update Web Service Endpoint", notes = "This web service endpoint returns the User detials or success message with json format or xml format when the user is updated")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "authorization", value = "Bearer JWT Token", paramType = "header")})
+	@PutMapping(path = "/{id}",
+			consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserRest updateUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) {
+
+		logger.info("UserController -> updateUser(id, userDetails) method has been called");
+		UserRest returnValue = new UserRest();
+
+		UserDto userDto = new UserDto();
+		BeanUtils.copyProperties(userDetails, userDto);
+
+		UserDto updateUser = userService.updateUser(id, userDto);
+		BeanUtils.copyProperties(updateUser, returnValue);
+
+		logger.info("Return the user to the requester");
+		return returnValue;
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "The User Deletion Web Service Endpoint", notes = "This web service endpoint returns success token with json format or xml format when the user is deleted")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "authorization", value = "Bearer JWT Token", paramType = "header")})
+	@DeleteMapping(path = "/{id}",
+			produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public OperationStatusModel deleteUser(@PathVariable String id) {
+
+		logger.info("UserController -> deleteUser(id) method has been called");
+		OperationStatusModel returnValue = new OperationStatusModel();
+		returnValue.setOperationName(RequestOperationName.DELETE.name());
+
+		userService.deleteUser(id);
+
+		returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+
+		logger.info("Return the message to the requester");
+		return returnValue;
+	}
+
+	@CrossOrigin
+	@ApiOperation(value = "The Get Users Web Service Endpoint", notes = "This web service endpoint returns List of User detials with json format or xml format")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "authorization", value = "Bearer JWT Token", paramType = "header")})
+	@GetMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public List<UserRest> getUsers(){
+
+		logger.info("UserController -> getUsers() method has been called");
+		List<UserRest> returnValue = new ArrayList<>();
+
+		List<UserDto> users = userService.getUsers();
+
+		for(UserDto userDto : users) {
+			UserRest userModel = new UserRest();
+			BeanUtils.copyProperties(userDto, userModel);
+			returnValue.add(userModel);
+		}
+
+		logger.info("Return the users' list to the requester");
+		return returnValue;
+	}
 
 }

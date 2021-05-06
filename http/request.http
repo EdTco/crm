@@ -1,9 +1,20 @@
-POST http://127.0.0.1:{{PORT}}/api-v2/users/signin
+POST 127.0.0.1:{{PORT}}/{{BASE_API}}/users
+Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin1234"
+  "email": "admin@admin.com",
+  "firstName": "a",
+  "lastName": "c",
+  "password": "password"
 }
 
-###
+### User login
+
+POST 127.0.0.1:{{PORT}}/{{BASE_API}}/users/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "password"
+}

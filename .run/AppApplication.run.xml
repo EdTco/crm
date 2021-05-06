@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="AppApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="app" />
+    <module name="App" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />
@@ -12,17 +12,20 @@
       </ENTRIES>
     </extension>
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.esc.crm.app.AppApplication" />
-    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="11" />
+    <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <additionalParameters>
       <param>
         <option name="enabled" value="true" />
         <option name="name" value="USERNAME" />
-        <option name="value" value="SA" />
+        <option name="value" value="wdvgbvfeuheuxh" />
       </param>
       <param>
         <option name="enabled" value="true" />
         <option name="name" value="PASSWORD" />
-        <option name="value" value="JJSOOB" />
+        <option name="value" value="9b9f71f77816c1c7338081e1eee503e6571e6fb1c278036598e5f2029c61a368" />
       </param>
       <param>
         <option name="enabled" value="true" />
@@ -38,6 +41,16 @@
         <option name="enabled" value="true" />
         <option name="name" value="EXPIRE-LENGTH" />
         <option name="value" value="3600000" />
+      </param>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="HIBERNATE_DIALECT" />
+        <option name="value" value="org.hibernate.dialect.PostgreSQL92Dialect" />
+      </param>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="DATABASE_URL" />
+        <option name="value" value="jdbc:postgresql://ec2-107-20-153-39.compute-1.amazonaws.com:5432/d5ssfm1d25gmls" />
       </param>
     </additionalParameters>
     <method v="2">
