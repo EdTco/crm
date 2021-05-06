@@ -21,9 +21,9 @@ import java.util.List;
 public class SwaggerConfig {
 
 	Contact contact = new Contact(
-			"Food-Boot",
-			"",
-			"");
+			"CRM",
+			"https://github.com/EdTco/crm/tree/server",
+			"example@esc.com.gt");
 
 	List<VendorExtension> vendorExtensions = new ArrayList<>();
 
