@@ -227,3 +227,6 @@ Server/.mvn/*
 
 ###
 app/package-lock.json
+
+###
+App/
