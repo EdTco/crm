@@ -222,9 +222,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-### Server mvn
-Server/.mvn/*
-
 ###
 app/package-lock.json
 
