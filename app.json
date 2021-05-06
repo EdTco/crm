@@ -1,0 +1,7 @@
+{
+  "name": "Spring Boot Heroku Demo",
+  "description": "",
+  "repository": "https://github.com/EdTco/crm/tree/server",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}
