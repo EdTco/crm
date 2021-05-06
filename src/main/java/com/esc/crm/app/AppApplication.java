@@ -1,11 +1,6 @@
 package com.esc.crm.app;
 
-import com.esc.crm.app.model.Role;
-import com.esc.crm.app.model.User;
-import com.esc.crm.app.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -13,13 +8,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 @SpringBootApplication
-public class AppApplication {
-    @Autowired
-    UserService userService;
+public class AppApplication extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(AppApplication.class);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(AppApplication.class, args);
@@ -30,24 +25,13 @@ public class AppApplication {
         return new ModelMapper();
     }
 
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-//    @Override
-//    public void run(String... params) throws Exception {
-//        User admin = new User();
-//        admin.setUsername("admin");
-//        admin.setPassword("admin1234");
-//        admin.setEmail("admin@email.com");
-//        admin.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_ADMIN)));
-//
-//        userService.signup(admin);
-//
-//        User client = new User();
-//        client.setUsername("client");
-//        client.setPassword("client");
-//        client.setEmail("client@email.com");
-//        client.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
-//
-//        userService.signup(client);
-//    }
-
+    @Bean
+    public SpringApplicationContext springApplicationContext() {
+        return new SpringApplicationContext();
+    }
 }
