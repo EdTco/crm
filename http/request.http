@@ -11,10 +11,10 @@ Content-Type: application/json
 
 ### User login
 
-POST 127.0.0.1:{{PORT}}/{{BASE_API}}/users/login
+POST 127.0.0.1:{{PORT}}/{{BASE_API}}/users/signin
 Content-Type: application/json
 
 {
-  "email": "admin@admin.com",
-  "password": "password"
+  "username": "admin",
+  "password": "admin1234"
 }
