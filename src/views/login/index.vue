@@ -14,7 +14,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="Email"
           name="username"
           type="text"
           tabindex="1"
@@ -52,13 +52,13 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validEmail} from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!validEmail(value)) {
         callback(new Error('Please enter the correct user name'))
       } else {
         callback()
@@ -74,8 +74,8 @@ export default {
     return {
       logo: 'https://img.icons8.com/color/144/000000/object.png',
       loginForm: {
-        username: 'admin',
-        password: 'admin1234'
+        username: 'admin@admin.com',
+        password: 'password'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
