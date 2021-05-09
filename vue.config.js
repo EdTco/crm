@@ -6,8 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'CRM admin' // page title
-
+const name = defaultSettings.title || ' Admin'
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
@@ -27,7 +26,7 @@ module.exports = {
   publicPath: './',
   outputDir: 'docs',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: process.env.NODE_ENV === 'development' /* ? '/crm/' : '/' */,
   productionSourceMap: false,
   devServer: {
     port: port,
@@ -35,7 +34,8 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    }
+    },
+    before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
