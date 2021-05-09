@@ -1,10 +1,9 @@
 package com.esc.crm.app.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.esc.crm.app.SpringApplicationContext;
 import com.esc.crm.app.model.request.UserLoginRequseModel;
 import com.esc.crm.app.service.UserService;
-import com.esc.crm.app.shared.dto.UserDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,41 +23,49 @@ import java.util.Date;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-	public AuthenticationFilter(AuthenticationManager authenticationManager) {
-		this.authenticationManager = authenticationManager;
-	}
+    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
-	@Override
-	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-			throws AuthenticationException {
+    private String token;
 
-		try {
-			UserLoginRequseModel creds = new ObjectMapper().readValue(req.getInputStream(), UserLoginRequseModel.class);
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
+            throws AuthenticationException {
 
-			return authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
+        try {
+            UserLoginRequseModel creds = new ObjectMapper().readValue(req.getInputStream(), UserLoginRequseModel.class);
 
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+            return authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
 
-	@Override
-	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-			Authentication auth) throws IOException, ServerException {
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-		String userName = ((User) auth.getPrincipal()).getUsername();
+    @Override
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
+                                            Authentication auth) throws IOException, ServerException {
 
-		String token = Jwts.builder().setSubject(userName)
-				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET).compact();
+        String userName = ((User) auth.getPrincipal()).getUsername();
 
-		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-		UserDto userDto = userService.getUser(userName);
+        String token = Jwts.builder().setSubject(userName)
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET).compact();
 
-		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-		res.addHeader("UserID", userDto.getUserId());
-	}
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+//        UserDto userDto = userService.getUser(userName);
+        res.getOutputStream().println("{\"code\": 200,\"data\":{\"token\":\"" + token + "\"}}");
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

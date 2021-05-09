@@ -49,4 +49,7 @@ public class CustomerEntity implements Serializable {
     @Column(nullable = false)
     private String orderId;
 
+    @Column(nullable = false)
+    private Boolean status;
+
 }

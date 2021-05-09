@@ -39,7 +39,7 @@ public class OrderEntity implements Serializable {
 	private String[] items;
 
 	@Column(nullable = false)
-	private String userId;
+	private String customerId;
 
 	@Column(nullable = false)
 	private boolean status;

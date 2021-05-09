@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Data
 public class CustomerDto implements Serializable {
     private static final long serialVersionUID = 2L;
-    private long id;
+//    private long id;
     private String customerId;
     private String name;
     private String lastname;
@@ -15,4 +15,5 @@ public class CustomerDto implements Serializable {
     private String password;
     private String UrlPic;
     private String orderId;
+    private Boolean status;
 }

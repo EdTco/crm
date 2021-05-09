@@ -16,31 +16,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthenticationController {
 
-	org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@ApiOperation("User login")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Response Headera", responseHeaders = {
-			@ResponseHeader(name = "authorization", description = "Bearer <JWT value here>", response = String.class),
-			@ResponseHeader(name = "userId", description = "<Public User Id value here>", response = String.class)
-			})
-	})
+    @ApiOperation("User login")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Response Headera", responseHeaders = {
+            @ResponseHeader(name = "authorization", description = "Bearer <JWT value here>", response = String.class),
+            @ResponseHeader(name = "userId", description = "<Public User Id value here>", response = String.class)
+    })
+    })
+    @PostMapping("/users/login")
+    public void fakeLogin(@RequestBody LoginRequest login) {
+        logger.info(login.toString());
+    }
 
-	@PostMapping("/users/login")
-	public void fakeLogin(@RequestBody LoginRequest login) {
-		throw new IllegalStateException("You can't access this method using api documentation!");
-	}
+    @RequestMapping(value = "/users/{email}", method = RequestMethod.GET)
+    public UserRest getUserByEmail(@PathVariable String email) {
 
-	@RequestMapping(value = "/users/{email}", method = RequestMethod.GET)
-	public UserRest getUserByEmail(@PathVariable String email) {
+        UserRest returnValue = new UserRest();
 
-		UserRest returnValue = new UserRest();
+        UserDto user = userService.getUser(email);
+        BeanUtils.copyProperties(user, returnValue);
 
-		UserDto user = userService.getUser(email);
-		BeanUtils.copyProperties(user, returnValue);
-
-		return returnValue;
-	}
+        return returnValue;
+    }
 }

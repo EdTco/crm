@@ -18,3 +18,15 @@ Content-Type: application/json
   "email": "admin@admin.com",
   "password": "password"
 }
+
+### User info
+
+GET 127.0.0.1:{{PORT}}/{{BASE_API}}/users/info
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJleHAiOjE2MjEzODUyODJ9.S-EF3SC185GrSqSUZvv7rb7TcAyKBhK1RvB128fjfJeKuyjM9J1GqS5E38_xd_PE_E1oFfoWOsmioGEl19PbRQ
+
+
+### Customers Actions
+GET 127.0.0.1:{{PORT}}/{{BASE_API}}/customers/We34
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJleHAiOjE2MjEzOTQ3MDF9.y8PA1B8PWSBNYmO6YklQAexO1kzBw5ImQpYTsV3X3A48zD7S8w3ERuT-VQ1cuSxizlTZgIrb1oPLxpwAd5p6zg
+

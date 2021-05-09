@@ -17,4 +17,5 @@ public class UserDto implements Serializable {
     private String password;
     private String encryptedPassword;
     private String userType;
+    private String picURL;
 }

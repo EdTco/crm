@@ -73,6 +73,11 @@ public class UserServiceImpl implements UserService {
 		return returnValue;
 	}
 
+	@Override
+	public String login(String username, String password) {
+		return null;
+	}
+
 	/**
 	 * load user by user name(user id) method
 	 */

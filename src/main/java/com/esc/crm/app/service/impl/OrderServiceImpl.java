@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
 
 		logger.info("OrderService -> getOrderById(orderId) method is called. Finding the order");
 
-		OrderDto returnValue = new OrderDto();
+		OrderDto returnValue;
 		ModelMapper modelMapper = new ModelMapper();
 
 		OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
