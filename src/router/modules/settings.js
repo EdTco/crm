@@ -12,26 +12,22 @@ const settingRouter = {
   children: [
     {
       path: 'users',
-      component: () => import('@/views/settings/users/index'), // Parent router-view
       name: 'Users',
       meta: { title: 'Users', icon: 'peoples' },
       redirect: '/settings/users/add',
       children: [
         {
           path: 'add',
-          component: () => import('@/views/settings/users/add'),
           name: 'Add User',
           meta: { title: 'Add User' }
         },
         {
           path: 'update',
-          component: () => import('@/views/settings/users/update'),
           name: 'Update User',
           meta: { title: 'Update User' }
         },
         {
           path: 'remove',
-          component: () => import('@/views/settings/users/remove'),
           name: 'Remove User',
           meta: { title: 'Remove User' }
         }

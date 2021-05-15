@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Layout from '@/layout'
-import settingRouter from './modules/settings'
 
 Vue.use(Router)
 
@@ -158,8 +157,7 @@ export const asyncRoutes = [
         meta: { title: 'Sales', icon: 'tab' }
       }
     ]
-  },
-  settingRouter
+  }
 ]
 
 const createRouter = () => new Router({

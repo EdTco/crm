@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       activeName: 'directly',
-      inputData: 'TU PUTA MADRE :#'
+      inputData: ''
     }
   },
   methods: {

@@ -217,7 +217,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
+      fetchList().then(response => {
         this.list = response.data.items
         this.total = response.data.total
         setTimeout(() => {
