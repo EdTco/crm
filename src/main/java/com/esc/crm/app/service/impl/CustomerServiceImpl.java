@@ -1,9 +1,12 @@
 package com.esc.crm.app.service.impl;
 
+import com.esc.crm.app.io.entity.AddressEntity;
 import com.esc.crm.app.io.entity.CustomerEntity;
+import com.esc.crm.app.io.repository.AddressRepository;
 import com.esc.crm.app.io.repository.CustomerRepository;
 import com.esc.crm.app.service.CustomerService;
 import com.esc.crm.app.shared.Utils;
+import com.esc.crm.app.shared.dto.AddressDto;
 import com.esc.crm.app.shared.dto.CustomerDto;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
@@ -11,6 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +30,9 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
 
     @Autowired
     Utils utils;
@@ -48,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
         String customerId = utils.generateOrderId(10);
 
         customerEntity.setCustomerId(customerId);
-        customerEntity.setStatus(true);
+        customerEntity.setStatus("active");
 
         logger.info("Saving the customer to the database -> orders");
 
@@ -138,10 +148,16 @@ public class CustomerServiceImpl implements CustomerService {
         for (CustomerEntity customerEntity : iterable) {
             CustomerDto customerDto = new CustomerDto();
             BeanUtils.copyProperties(customerEntity, customerDto);
+            AddressEntity address = addressRepository.findByCustomerId(customerDto.getCustomerId());
+            customerDto.setType(address.getCity());
             returnValue.add(customerDto);
         }
 
         logger.info("Customers details found. Returning customers to the UserController via List<Customers>");
         return returnValue;
+    }
+    @Override
+    public Page<CustomerEntity> getAllCustomer(Pageable sorted){
+        return customerRepository.findAll(sorted);
     }
 }

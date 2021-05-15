@@ -27,6 +27,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJle
 
 
 ### Customers Actions
-GET 127.0.0.1:{{PORT}}/{{BASE_API}}/customers/We34
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJleHAiOjE2MjEzOTQ3MDF9.y8PA1B8PWSBNYmO6YklQAexO1kzBw5ImQpYTsV3X3A48zD7S8w3ERuT-VQ1cuSxizlTZgIrb1oPLxpwAd5p6zg
+GET 127.0.0.1:{{PORT}}/{{BASE_API}}/clients/list?page=1&limit=20&type=QT&sort=+id&status=active&name=name
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJleHAiOjE2MjE3NzYzNjR9.bssDOm62-iGvlFWXgIoVaJ5kV0ShcIyKp03r1cM1nwPsGr7nla0ELJI10SCB9Zp6D-ZWoGkBHwz4Kynaoj_Omw
 

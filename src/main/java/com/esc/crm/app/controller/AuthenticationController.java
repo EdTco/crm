@@ -11,7 +11,12 @@ import io.swagger.annotations.ResponseHeader;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 @RestController
 public class AuthenticationController {
@@ -41,5 +46,21 @@ public class AuthenticationController {
         BeanUtils.copyProperties(user, returnValue);
 
         return returnValue;
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/users/logout")
+    public ResponseEntity<HashMap<Object, Object>> logout(HttpServletRequest request) {
+        HashMap<Object, Object> map = new HashMap<>();
+        try {
+            request.logout();
+            map.put("code", 200);
+            map.put("data", "success");
+            return ResponseEntity.ok(map);
+        } catch (ServletException e) {
+            map.put("code", 508);
+            map.put("data", "declined");
+            return ResponseEntity.ok(map);
+        }
     }
 }

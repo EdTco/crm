@@ -4,11 +4,9 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity(name = "customers")
 @GenericGenerator(
@@ -50,6 +48,10 @@ public class CustomerEntity implements Serializable {
     private String orderId;
 
     @Column(nullable = false)
-    private Boolean status;
+    private String status;
+
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date utilTimestamp;
 
 }

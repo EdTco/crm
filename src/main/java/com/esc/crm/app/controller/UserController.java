@@ -7,7 +7,6 @@ import com.esc.crm.app.service.UserService;
 import com.esc.crm.app.shared.dto.UserDto;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.*;
-import org.modelmapper.ModelMapper;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,22 +171,4 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @CrossOrigin
-    @PostMapping(
-            path = "/logout",
-            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<HashMap<Object, Object>> logout(HttpServletRequest request) {
-        HashMap<Object, Object> map = new HashMap<>();
-        try {
-            request.logout();
-            map.put("code", 200);
-            map.put("data", "success");
-            return ResponseEntity.ok(map);
-        } catch (ServletException e) {
-            map.put("code", 508);
-            map.put("data", "declined");
-            return ResponseEntity.ok(map);
-        }
-    }
 }
