@@ -66,7 +66,7 @@ export default {
     RaddarChart,
     PieChart,
     BarChart,
-    TransactionTable,
+    TransactionTable
   },
   data() {
     return {

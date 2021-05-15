@@ -22,9 +22,6 @@
           <router-link to="/">
             <el-dropdown-item>Dashboard</el-dropdown-item>
           </router-link>
-<!--          <el-dropdown-item divided @click.prevent.stop="guide">-->
-<!--            <span style="display:block;">Guide</span>-->
-<!--          </el-dropdown-item>-->
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">Log Out</span>
           </el-dropdown-item>
@@ -41,8 +38,6 @@ import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
 import Search from '@/components/HeaderSearch'
 import Driver from 'driver.js'
-import steps from '@/views/guide/steps'
-import 'driver.js/dist/driver.min.css' // import driver.js css
 
 export default {
   components: {
@@ -50,11 +45,6 @@ export default {
     Hamburger,
     ErrorLog,
     Search
-  },
-  data() {
-    return {
-      driver: null
-    }
   },
   computed: {
     ...mapGetters([
@@ -67,10 +57,6 @@ export default {
     this.driver = new Driver()
   },
   methods: {
-    guide() {
-      this.driver.defineSteps(steps)
-      this.driver.start()
-    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

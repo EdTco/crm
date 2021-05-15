@@ -1,9 +1,7 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
       <div class="title-container">
-        <!--        <img :src="logo" class="img-circle"/>-->
         <h3 class="title">Login Form</h3>
       </div>
 
@@ -52,14 +50,14 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validEmail } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+      if (!validEmail(value)) {
+        callback(new Error('Please enter the correct email'))
       } else {
         callback()
       }
@@ -74,8 +72,8 @@ export default {
     return {
       logo: 'https://img.icons8.com/color/144/000000/object.png',
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: 'admin@admin.com',
+        password: 'password'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
