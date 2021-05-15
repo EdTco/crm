@@ -23,7 +23,7 @@
             New customers
           </div>
           Last 30 days
-          <count-to :start-val="0" :end-val="81" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="21" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -37,7 +37,7 @@
             New customers
           </div>
           In 2021
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="80" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -51,7 +51,7 @@
             Turnover
           </div>
           Customers 2021
-          <count-to :start-val="0" :end-val="11600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="60" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
